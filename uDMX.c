@@ -141,13 +141,17 @@ char * read_uDMXrc (char * keyword1, char * keyword2) {
     size_t len = 0;
     ssize_t read;
 
-    HOME=getenv("HOME");
+    // HOME=getenv("HOME");
+    // Temp work around on RPi. This app must be run
+    // via sudo, thus making the home dir root.
+    HOME = "/home/pi"; 
     strcpy(uDMXrcname,HOME);
     strcat(uDMXrcname,"/.uDMXrc");
     uDMXrc = fopen(uDMXrcname,"r");
     if (! uDMXrc) { 
         if (debug) {
             perror("Opening $HOME/.uDMXrc failed");
+            perror(uDMXrcname);
         }
         return 0;
     }
